@@ -15,7 +15,7 @@
             :textLength="word.bbox.x1 - word.bbox.x0"
             :font-size="word.bbox.y1 - word.bbox.y0"
             lengthAdjust="spacingAndGlyphs"
-            fill="transparent"
+            fill="black"
 		>
             {{word.text}}
         </text>
