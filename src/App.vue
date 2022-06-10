@@ -34,14 +34,16 @@
 		</v-app-bar>
 
 		<v-main>
-			<ImageViewer v-if="true" />
+			<ImageViewer v-if="false" />
 			<overlay-viewer v-if="false" />
+			<image-viewer-2 v-if="true" />
 		</v-main>
 	</v-app>
 </template>
 
 <script>
 	import ImageViewer from './components/ImageViewer';
+import ImageViewer2 from './components/ImageViewer2.vue';
 	import OverlayViewer from './components/OverlayViewer.vue';
 
 	export default {
@@ -50,6 +52,7 @@
 		components: {
 			ImageViewer,
 			OverlayViewer,
+ImageViewer2,
 		},
 
 		data: () => ({

@@ -29,7 +29,7 @@
 
 	export default {
 		components: { HocrParser, InfoParser, InfoParser2 },
-		props: ['imgURL', 'imgH', 'imgW'],
+		props: ['canvas'],
 
 		data: () => ({
 			isLoading: true,
@@ -37,32 +37,21 @@
 			info: null,
 		}),
 
+        computed: {
+            imgH(){
+                return this.canvas.height;
+            },
+            
+            imgW(){
+                return this.canvas.width;
+            }
+        },
+
 		methods: {
 			async recognize() {
-				if (!this.imgURL) this.info = null;
-				const img = await this.getImg(
-					this.imgURL,
-					this.imgW,
-					this.imgH
-				);
-				const canvas = document.createElement('canvas');
-				canvas.width = this.imgW;
-				canvas.height = this.imgH;
-				canvas
-					.getContext('2d')
-					.drawImage(img, 0, 0, this.imgW, this.imgH);
-				// this.info = await this.scheduler.addJob('recognize', canvas);
-				const info = await this.scheduler.addJob('recognize', canvas);
+				const info = await this.scheduler.addJob('recognize', this.canvas);
 				console.info(info);
 				this.info = info;
-			},
-
-			async getImg(imgURL, imgW, imgH) {
-				return new Promise((resolve) => {
-					const img = new Image(imgW, imgH);
-					img.onload = () => resolve(img);
-					img.src = imgURL;
-				});
 			},
 		},
 
@@ -88,12 +77,12 @@
 			// 	await this.recognize();
 			// 	this.isLoading = false;
 			// },
-			async imgH() {
-				if(!this.imgURL){
-					this.isLoading = false;
-					this.info = null;
-					return;
-				}
+			async canvas() {
+                if(!this.canvas){
+                    this.isLoading = false;
+                    this.info = null;
+                    return;
+                }
 				this.isLoading = true;
 				await this.recognize();
 				this.isLoading = false;
